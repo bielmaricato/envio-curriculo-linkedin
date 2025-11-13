@@ -19,6 +19,7 @@ envio-curriculo-linkedin/
 ├── vagas_remotas_senior.csv      # Saída em CSV
 ├── vagas_remotas_senior.json     # Saída em JSON
 └── node_modules/                 # Dependências instaladas
+├── index.html                    # Site para acompanhamento das vagas
 ```
 
 ---
