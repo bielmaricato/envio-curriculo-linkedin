@@ -13,12 +13,12 @@
 
 ```
 envio-curriculo-linkedin/
-├── scraper.js              # Script principal
-├── quick-scraper.js        # Versão rápida
-├── package.json            # Configurações e dependências
-├── vagas_remotas_senior.csv # Saída em CSV
-├── vagas_remotas_senior.json # Saída em JSON
-└── node_modules/           # Dependências instaladas
+├── scraper.js                    # Script principal
+├── quick-scraper.js              # Versão rápida
+├── package.json                  # Configurações e dependências
+├── vagas_remotas_senior.csv      # Saída em CSV
+├── vagas_remotas_senior.json     # Saída em JSON
+└── node_modules/                 # Dependências instaladas
 ```
 
 ---
