@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Envio Linkedinho do Bielson - Dashboard de Vagas</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            font-size: 1.1rem;
+            color: #666;
+            font-weight: 400;
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+        }
+
+        .card h3 {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 15px;
+            font-weight: 500;
+        }
+
+        .card .value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .card .trend {
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+        }
+
+        .card .trend.up {
+            color: #10b981;
+        }
+
+        .card .trend.down {
+            color: #ef4444;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            opacity: 0.8;
+        }
+
+        .total-vagas {
+            border-left: 5px solid #667eea;
+        }
+
+        .vagas-remotas {
+            border-left: 5px solid #10b981;
+        }
+
+        .vagas-senior {
+            border-left: 5px solid #f59e0b;
+        }
+
+        .vagas-eua {
+            border-left: 5px solid #ef4444;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 20px;
+        }
+
+        .table-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .table-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .table-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: #f8fafc;
+            border-radius: 10px;
+            padding: 10px 15px;
+            width: 300px;
+        }
+
+        .search-box i {
+            color: #94a3b8;
+            margin-right: 10px;
+        }
+
+        .search-box input {
+            border: none;
+            background: transparent;
+            outline: none;
+            width: 100%;
+            font-size: 0.95rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        th {
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #475569;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            font-size: 0.95rem;
+        }
+
+        tr:last-child td {
+            border-bottom: none;
+        }
+
+        tr:hover {
+            background: #f8fafc;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .badge.remote {
+            background: #d1fae5;
+            color: #065f46;
+        }
+
+        .badge.senior {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .badge.local {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .company {
+            display: flex;
+            align-items: center;
+        }
+
+        .company-icon {
+            width: 30px;
+            height: 30px;
+            background: #667eea;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 10px;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            gap: 10px;
+        }
+
+        .pagination button {
+            padding: 8px 15px;
+            border: none;
+            background: #f1f5f9;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+
+        .pagination button:hover {
+            background: #e2e8f0;
+        }
+
+        .pagination button.active {
+            background: #667eea;
+            color: white;
+        }
+
+        .charts-container {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .chart-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 16px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .chart-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .chart-container {
+            height: 200px;
+            position: relative;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            text-align: center;
+            padding: 15px;
+            background: #f8fafc;
+            border-radius: 10px;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 5px;
+        }
+
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .table-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 15px;
+            }
+            
+            .search-box {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Envio Linkedinho do Bielson</h1>
+            <p class="subtitle">Dashboard de Vagas de Analista de Sistemas Sênior - Dados em Tempo Real</p>
+        </header>
+
+        <div class="dashboard">
+            <div class="card total-vagas">
+                <div class="card-icon">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3>Total de Vagas</h3>
+                <div class="value" id="total-vagas">0</div>
+                <div class="trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Atualizado recentemente</span>
+                </div>
+            </div>
+
+            <div class="card vagas-remotas">
+                <div class="card-icon">
+                    <i class="fas fa-laptop-house"></i>
+                </div>
+                <h3>Vagas Remotas</h3>
+                <div class="value" id="vagas-remotas">0</div>
+                <div class="trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>% do total</span>
+                </div>
+            </div>
+
+            <div class="card vagas-senior">
+                <div class="card-icon">
+                    <i class="fas fa-user-tie"></i>
+                </div>
+                <h3>Vagas Sênior</h3>
+                <div class="value" id="vagas-senior">0</div>
+                <div class="trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>% do total</span>
+                </div>
+            </div>
+
+            <div class="card vagas-eua">
+                <div class="card-icon">
+                    <i class="fas fa-flag-usa"></i>
+                </div>
+                <h3>Vagas nos EUA</h3>
+                <div class="value" id="vagas-eua">0</div>
+                <div class="trend up">
+                    <i class="fas fa-arrow-up"></i>
+                    <span>Principal localização</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <div class="table-container">
+                <div class="table-header">
+                    <h2>Lista de Vagas Encontradas</h2>
+                    <div class="search-box">
+                        <i class="fas fa-search"></i>
+                        <input type="text" id="search-input" placeholder="Pesquisar vagas...">
+                    </div>
+                </div>
+
+                <table id="jobs-table">
+                    <thead>
+                        <tr>
+                            <th>Cargo</th>
+                            <th>Empresa</th>
+                            <th>Localização</th>
+                            <th>Status</th>
+                            <th>Data</th>
+                        </tr>
+                    </thead>
+                    <tbody id="jobs-table-body">
+                        <!-- Os dados serão inseridos aqui via JavaScript -->
+                    </tbody>
+                </table>
+
+                <div class="pagination" id="pagination">
+                    <!-- A paginação será gerada via JavaScript -->
+                </div>
+            </div>
+
+            <div class="charts-container">
+                <div class="chart-card">
+                    <h3>Distribuição por Tipo</h3>
+                    <div class="chart-container">
+                        <canvas id="type-chart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <h3>Estatísticas das Vagas</h3>
+                    <div class="stats-grid">
+                        <div class="stat-item">
+                            <div class="stat-value" id="avg-time">0</div>
+                            <div class="stat-label">Tempo Médio</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value" id="new-vagas">0</div>
+                            <div class="stat-label">Novas (7 dias)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dados das vagas (substitua pelos dados reais do seu JSON)
+        const vagas = [
+  {
+    "title": "Sr Systems Analyst (Remote - US)",
+    "company": "Jobgether",
+    "location": "Estados Unidos",
+    "time": "Há 1 dia",
+    "link": "https://www.linkedin.com/jobs/view/sr-systems-analyst-remote-us-at-jobgether-4340062501?position=1&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=zdXoDCS1M5SrLxHJt4dhhw%3D%3D",
+    "remote": true,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:00"
+  },
+  {
+    "title": "Sr. Systems Analyst - Navy - Secret Required",
+    "company": "cFocus Software Incorporated",
+    "location": "Dahlgren, Virgínia, Estados Unidos",
+    "time": "Há 3 dias",
+    "link": "https://www.linkedin.com/jobs/view/sr-systems-analyst-navy-secret-required-at-cfocus-software-incorporated-4339533781?position=3&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=2aHnyt2nv36%2B67V6dmBeJQ%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Sr Systems Analyst - Customer Success",
+    "company": "Samsara",
+    "location": "Estados Unidos",
+    "time": "Há 5 dias",
+    "link": "https://www.linkedin.com/jobs/view/sr-systems-analyst-customer-success-at-samsara-4338185208?position=4&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=J1ol25wRbpT%2F1zPO8f1CNQ%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "NYS DOL HBITS-07-14417 Expert Systems Analyst (Business Analyst)",
+    "company": "Voyatek",
+    "location": "Albany, Nova York, Estados Unidos",
+    "time": "Há 2 dias",
+    "link": "https://www.linkedin.com/jobs/view/nys-dol-hbits-07-14417-expert-systems-analyst-business-analyst-at-voyatek-4321618628?position=9&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=%2BuTKcT8SDmqxocZ81fMxIg%3D%3D",
+    "remote": false,
+    "senior": false,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Systems Analyst | Electrical",
+    "company": "Leonardo DRS",
+    "location": "Menomonee Falls, Wisconsin, Estados Unidos",
+    "time": "Há 1 dia",
+    "link": "https://www.linkedin.com/jobs/view/senior-systems-analyst-electrical-at-leonardo-drs-4340071764?position=10&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=X9B9V85QvSV7k1EYmDp39g%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Advanced Process Control DCS Systems Analyst Sr.",
+    "company": "PBF Energy",
+    "location": "Oregon, Ohio, Estados Unidos",
+    "time": "Há 1 dia",
+    "link": "https://www.linkedin.com/jobs/view/advanced-process-control-dcs-systems-analyst-sr-at-pbf-energy-4321837548?position=20&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=oPe8p6MsJqbP6Rzdonq12g%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Unifier Systems Analyst",
+    "company": "OnIndus",
+    "location": "Estados Unidos",
+    "time": "Há 2 semanas",
+    "link": "https://www.linkedin.com/jobs/view/senior-unifier-systems-analyst-at-onindus-4332850483?position=23&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=QW30VSN%2BzlOQxTGhTm34qQ%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Sr. Payment Systems Analyst",
+    "company": "Denny's",
+    "location": "Spartanburg, Carolina do Sul, Estados Unidos",
+    "time": "Há 3 semanas",
+    "link": "https://www.linkedin.com/jobs/view/sr-payment-systems-analyst-at-denny-s-4316968465?position=25&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=b6CNMmIHUPatj2f435yrUg%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Systems Analyst (DOORS Next Gen)",
+    "company": "Blue Star Partners",
+    "location": "Chicago, Ilinóis, Estados Unidos",
+    "time": "Há 11 meses",
+    "link": "https://www.linkedin.com/jobs/view/senior-systems-analyst-doors-next-gen-at-blue-star-partners-4083967147?position=28&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=lP6XYlwzNxg53hXPr4ub8g%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Systems Analyst – General",
+    "company": "UST",
+    "location": "Aliso Viejo, Califórnia, Estados Unidos",
+    "time": "Há 1 semana",
+    "link": "https://www.linkedin.com/jobs/view/senior-systems-analyst-%E2%80%93-general-at-ust-4311999932?position=47&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=uN44dSO9%2FVg9oHo73L3VdA%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Systems Analyst (Job ID:3978)",
+    "company": "Valkyrie Enterprises",
+    "location": "Huntsville, Alabama, Estados Unidos",
+    "time": "Há 1 mês",
+    "link": "https://www.linkedin.com/jobs/view/senior-systems-analyst-job-id-3978-at-valkyrie-enterprises-4310943410?position=48&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=9Y3OcG5h5n2uswzw8sVjPg%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Cybersecurity Systems Analyst",
+    "company": "FEDITC",
+    "location": "Tampa, Flórida, Estados Unidos",
+    "time": "Há 3 semanas",
+    "link": "https://www.linkedin.com/jobs/view/senior-cybersecurity-systems-analyst-at-feditc-4304966837?position=51&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=I4husWN9YSQyMfCee93exg%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Senior Systems Analyst : Gainsight",
+    "company": "Recorded Future",
+    "location": "Estados Unidos",
+    "time": "Há 6 dias",
+    "link": "https://www.linkedin.com/jobs/view/senior-systems-analyst-gainsight-at-recorded-future-4321213407?position=53&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=o6W8srdnzweJZwXNnF5RmA%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  },
+  {
+    "title": "Sr. Finance Systems Analyst",
+    "company": "Robert Half",
+    "location": "Bellevue, Washington, Estados Unidos",
+    "time": "Há 1 semana",
+    "link": "https://www.linkedin.com/jobs/view/sr-finance-systems-analyst-at-robert-half-4333116825?position=58&pageNum=0&refId=ykb6dcmIVHJD5N3jQMbULQ%3D%3D&trackingId=ueI55xXHH3qrNEPb7KJ13A%3D%3D",
+    "remote": false,
+    "senior": true,
+    "scrapedAt": "13/11/2025, 01:59:01"
+  }
+];
+
+        // Variáveis globais
+        let currentPage = 1;
+        const itemsPerPage = 5;
+        let filteredVagas = [...vagas];
+
+        // Inicialização
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDashboard();
+            renderTable();
+            setupCharts();
+            setupSearch();
+        });
+
+        // Atualizar dashboard
+        function updateDashboard() {
+            const totalVagas = vagas.length;
+            const vagasRemotas = vagas.filter(vaga => vaga.remote).length;
+            const vagasSenior = vagas.filter(vaga => vaga.senior).length;
+            const vagasEUA = vagas.filter(vaga => vaga.location.includes('Estados Unidos')).length;
+
+            document.getElementById('total-vagas').textContent = totalVagas;
+            document.getElementById('vagas-remotas').textContent = `${vagasRemotas} (${Math.round((vagasRemotas/totalVagas)*100)}%)`;
+            document.getElementById('vagas-senior').textContent = `${vagasSenior} (${Math.round((vagasSenior/totalVagas)*100)}%)`;
+            document.getElementById('vagas-eua').textContent = `${vagasEUA} (${Math.round((vagasEUA/totalVagas)*100)}%)`;
+        }
+
+        // Renderizar tabela
+        function renderTable() {
+            const tableBody = document.getElementById('jobs-table-body');
+            const pagination = document.getElementById('pagination');
+            
+            // Calcular índices para paginação
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedVagas = filteredVagas.slice(startIndex, endIndex);
+            
+            // Limpar tabela
+            tableBody.innerHTML = '';
+            
+            // Preencher tabela
+            paginatedVagas.forEach(vaga => {
+                const row = document.createElement('tr');
+                
+                // Determinar badges
+                const remoteBadge = vaga.remote ? '<span class="badge remote">Remoto</span>' : '';
+                const seniorBadge = vaga.senior ? '<span class="badge senior">Sênior</span>' : '';
+                const locationBadge = vaga.location.includes('Estados Unidos') ? '<span class="badge local">EUA</span>' : '';
+                
+                row.innerHTML = `
+                    <td>
+                        <strong>${vaga.title}</strong>
+                        <div style="margin-top: 5px;">
+                            ${remoteBadge} ${seniorBadge} ${locationBadge}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="company">
+                            <div class="company-icon">${vaga.company.charAt(0)}</div>
+                            ${vaga.company}
+                        </div>
+                    </td>
+                    <td>${vaga.location}</td>
+                    <td>
+                        <a href="${vaga.link}" target="_blank" style="color: #667eea; text-decoration: none;">
+                            <i class="fas fa-external-link-alt"></i> Ver Vaga
+                        </a>
+                    </td>
+                    <td>${vaga.time}</td>
+                `;
+                
+                tableBody.appendChild(row);
+            });
+            
+            // Atualizar paginação
+            updatePagination();
+        }
+
+        // Atualizar paginação
+        function updatePagination() {
+            const pagination = document.getElementById('pagination');
+            const totalPages = Math.ceil(filteredVagas.length / itemsPerPage);
+            
+            pagination.innerHTML = '';
+            
+            // Botão anterior
+            const prevButton = document.createElement('button');
+            prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+            prevButton.disabled = currentPage === 1;
+            prevButton.addEventListener('click', () => {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(prevButton);
+            
+            // Botões de página
+            for (let i = 1; i <= totalPages; i++) {
+                const pageButton = document.createElement('button');
+                pageButton.textContent = i;
+                pageButton.className = i === currentPage ? 'active' : '';
+                pageButton.addEventListener('click', () => {
+                    currentPage = i;
+                    renderTable();
+                });
+                pagination.appendChild(pageButton);
+            }
+            
+            // Botão próximo
+            const nextButton = document.createElement('button');
+            nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+            nextButton.disabled = currentPage === totalPages;
+            nextButton.addEventListener('click', () => {
+                if (currentPage < totalPages) {
+                    currentPage++;
+                    renderTable();
+                }
+            });
+            pagination.appendChild(nextButton);
+        }
+
+        // Configurar gráficos
+        function setupCharts() {
+            // Gráfico de distribuição por tipo
+            const typeCtx = document.getElementById('type-chart').getContext('2d');
+            
+            const remoteCount = vagas.filter(v => v.remote).length;
+            const seniorCount = vagas.filter(v => v.senior).length;
+            const euaCount = vagas.filter(v => v.location.includes('Estados Unidos')).length;
+            
+            new Chart(typeCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Remotas', 'Sênior', 'EUA'],
+                    datasets: [{
+                        data: [remoteCount, seniorCount, euaCount],
+                        backgroundColor: [
+                            '#10b981',
+                            '#f59e0b',
+                            '#ef4444'
+                        ],
+                        borderWidth: 2,
+                        borderColor: '#fff'
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'bottom'
+                        }
+                    }
+                }
+            });
+            
+            // Atualizar estatísticas
+            document.getElementById('avg-time').textContent = '1 semana';
+            document.getElementById('new-vagas').textContent = vagas.filter(v => 
+                v.time.includes('dia') || v.time.includes('Há 1 semana')
+            ).length;
+        }
+
+        // Configurar busca
+        function setupSearch() {
+            const searchInput = document.getElementById('search-input');
+            
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                
+                if (searchTerm) {
+                    filteredVagas = vagas.filter(vaga => 
+                        vaga.title.toLowerCase().includes(searchTerm) ||
+                        vaga.company.toLowerCase().includes(searchTerm) ||
+                        vaga.location.toLowerCase().includes(searchTerm)
+                    );
+                } else {
+                    filteredVagas = [...vagas];
+                }
+                
+                currentPage = 1;
+                renderTable();
+            });
+        }
+    </script>
+</body>
+</html>
