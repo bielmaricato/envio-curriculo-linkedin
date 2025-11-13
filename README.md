@@ -12,7 +12,7 @@
 ## 📂 Estrutura do projeto
 
 ```
-linkedin-jobs-scraper/
+envio-curriculo-linkedin/
 ├── scraper.js              # Script principal
 ├── quick-scraper.js        # Versão rápida
 ├── package.json            # Configurações e dependências
