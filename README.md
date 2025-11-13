@@ -1,8 +1,8 @@
-# 🧑‍💻 Automação da pesquisa de vagas no linkedin
+# 🤖 Automação da pesquisa de vagas no linkedin
 
 ---
 
-## 🚀 Tecnologias utilizadas
+## 💻 Tecnologias utilizadas
 
 - [Node.js](https://nodejs.org/)
 - [Puppeteer](https://pptr.dev/)
