@@ -1,0 +1,16 @@
+{
+  "name": "linkedin-jobs-scraper",
+  "version": "1.0.0",
+  "description": "Scraper para vagas remotas de Analista de Sistemas Sênior no LinkedIn",
+  "main": "scraper.js",
+  "scripts": {
+    "start": "node scraper.js",
+    "quick": "node quick-scraper.js",
+    "dev": "node scraper.js --headless=false"
+  },
+  "dependencies": {
+    "puppeteer": "^21.0.0",
+    "cheerio": "^1.0.0-rc.12",
+    "csv-writer": "^1.6.0"
+  }
+}
