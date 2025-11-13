@@ -2,6 +2,7 @@ const puppeteer = require('puppeteer');
 const cheerio = require('cheerio');
 const fs = require('fs');
 const createCsvWriter = require('csv-writer').createObjectCsvWriter;
+let cargo = "Analista de Sistemas";
 
 class LinkedInJobsScraper {
     constructor() {
@@ -36,7 +37,7 @@ class LinkedInJobsScraper {
             // URL de busca para vagas remotas de Analista de Sistemas Sênior
             const baseUrl = 'https://www.linkedin.com/jobs/search/';
             const params = new URLSearchParams({
-                'keywords': 'Analista de Sistemas Sênior',
+                'keywords': cargo,
                 'location': 'Brasil',
                 'f_WF': '9', // Remote filter
                 'f_E': '4', // Senior level
@@ -257,9 +258,11 @@ class LinkedInJobsScraper {
 // Função de execução principal
 async function main() {
     const scraper = new LinkedInJobsScraper();
+
+ //cargo = "Analista de Sistemas xpto";
     
     try {
-        console.log('🚀 Iniciando busca por vagas remotas de Analista de Sistemas Sênior...\n');
+        console.log(`🚀 Iniciando busca por vagas remotas de ${cargo} ...\n`);
         
         await scraper.init();
         
