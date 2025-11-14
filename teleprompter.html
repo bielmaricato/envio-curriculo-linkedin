@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Apresentação — História de Resiliência (para Entrevistadores)</title>
+  <style>
+    :root{--bg:#0b1220;--panel:#071426;--accent:#ff9900;--muted:#9aa4b2;--glass:rgba(255,255,255,0.03);font-family:Inter,system-ui,Segoe UI,Roboto,Arial}
+    html,body{height:100%;margin:0;background:linear-gradient(180deg,#061225 0%, #071426 100%);color:#e6eef6}
+    .app{max-width:1100px;margin:28px auto;padding:18px}
+    header{display:flex;align-items:center;gap:16px}
+    .logo{width:56px;height:56px;border-radius:10px;background:linear-gradient(135deg,var(--accent),#ff7a00);display:flex;align-items:center;justify-content:center;font-weight:800;color:#071226}
+    h1{margin:0;font-size:20px}
+    .controls{margin-left:auto;display:flex;gap:8px}
+    button{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);padding:8px 12px;border-radius:8px;cursor:pointer}
+
+    /* Layout */
+    .stage{display:grid;grid-template-columns:1fr 360px;gap:18px;margin-top:18px}
+    .slide-area{background:linear-gradient(180deg,rgba(255,255,255,0.02),rgba(255,255,255,0.01));padding:22px;border-radius:12px;border:1px solid rgba(255,255,255,0.04);min-height:520px;position:relative}
+    .notes{background:rgba(255,255,255,0.02);padding:16px;border-radius:12px;border:1px solid rgba(255,255,255,0.03)}
+    .slide{height:100%;display:flex;flex-direction:column;gap:12px}
+    .slide h2{color:var(--accent);margin:0}
+    .slide p{color:#dbeaf4}
+
+    /* timeline visual inside slides */
+    .timeline-mini{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+    .tag{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:999px;font-weight:700}
+
+    /* presenter footer controls */
+    .presenter-controls{display:flex;gap:10px;align-items:center;position:absolute;left:50%;transform:translateX(-50%);bottom:-26px}
+    .big-btn{background:var(--accent);color:#071226;border:none;padding:10px 14px;border-radius:8px;font-weight:800}
+    .small{font-size:13px;color:var(--muted)}
+
+    /* fullscreen styles */
+    .fs .slide-area{min-height:100vh;border-radius:0}
+    .fs .notes{display:none}
+
+    /* responsive */
+    @media (max-width:980px){.stage{grid-template-columns:1fr} .presenter-controls{position:static;transform:none;margin-top:10px}}
+
+    /* subtle animations */
+    .fade-in{animation:fadeIn .45s ease both}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+
+    /* teleprompter */
+    .tele{max-height:420px;overflow:auto;padding-right:8px}
+    .tele p{margin:0 0 12px 0}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header>
+      <div style="display:flex;gap:12px;align-items:center">
+        <div class="logo">AWS</div>
+        <div>
+          <h1>Apresentação — História de Resiliência</h1>
+          <div class="small">Modo apresentador para entrevistas técnicas</div>
+        </div>
+      </div>
+
+      <div class="controls">
+        <button id="downloadHtml">Baixar HTML</button>
+        <button id="toggleFull">Tela Cheia</button>
+        <button id="toggleTele">Teleprompter</button>
+      </div>
+    </header>
+
+    <div class="stage">
+      <main class="slide-area fade-in" id="slideArea" role="region" aria-live="polite">
+        <!-- Slides serão gerados por JavaScript -->
+      </main>
+
+      <aside class="notes">
+        <h3 style="margin-top:0">Notas do Apresentador</h3>
+        <div id="noteContent" class="tele">
+          <!-- Notas dinâmicas -->
+        </div>
+        <div style="margin-top:12px;display:flex;gap:8px;align-items:center">
+          <button id="prevBtn">Anterior</button>
+          <button id="nextBtn" class="big-btn">Próximo</button>
+          <div style="margin-left:auto;text-align:right">
+            <div class="small">Velocidade</div>
+            <input id="speed" type="range" min="20" max="200" value="80">
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <div class="presenter-controls">
+      <button id="startAuto" class="big-btn">Iniciar Auto</button>
+      <button id="pauseAuto">Pausar</button>
+      <button id="endPresent">Encerrar</button>
+    </div>
+  </div>
+
+  <script>
+    // Dados da história (extrair do documento que você já tem)
+    const slides = [
+      {title:'Introdução', text:'Uma breve introdução: quem sou, objetivo da apresentação e linha do tempo da carreira. Comece com um gancho: "Minha trajetória começou em 2009..."', note:'Cumprimente os entrevistadores. Resuma em 20s o objetivo: mostrar evolução técnica e resiliência.'},
+      {title:'2009 — Fundamentos', text:'Início com HTML e CSS. Primeiro contato com PHP e MySQL. Aprendizado autodidata e primeiros projetos.' , note:'Conte uma breve história de um projeto simples que ensinou lógica e persistência.'},
+      {title:'2011 — Crescimento', text:'Adotou C#, ASP e WPF. Aprendeu controle de versão e boas práticas. Começou a trabalhar em sistemas internos.', note:'Destaque um desafio de integração que você resolveu.'},
+      {title:'2014 — Estrutura e Escala', text:'Trabalhou com MVC, Windows Forms e SQL Server. Compreendeu a importância de arquitetura e testes.', note:'Explique como a arquitetura MVC mudou sua forma de projetar sistemas.'},
+      {title:'2016–2018 — Colaboração', text:'Adoção de Git, XAML, automação e autenticação com JWT. Colaboração em times e uso de RTC.', note:'Mencione como a colaboração agilizou entregas.'},
+      {title:'2019 — Segurança e Qualidade', text:'Ferramentas como Nexpose, Splunk e SonarQube. Aprofundou-se em Python e boas práticas de qualidade.', note:'Cite um caso onde a análise com SonarQube evitou um problema grave.'},
+      {title:'2020 — Modernização', text:'.NET Core, Angular, Docker, SOLID e Clean Architecture. Foco em APIs e escalabilidade.', note:'Fale sobre um sistema que precisou escalar rapidamente: o que você fez?'},
+      {title:'2022–2023 — Cloud e DevOps', text:'Implementação de pipelines CI/CD, AWS e monitoramento. Criação de APIs com ASP.NET Web API.', note:'Explique ganhos de automação em deploys e rollback.'},
+      {title:'2024–2025 — Sênior e Mentor', text:'Hoje atuando como sênior, mentorando equipes e entregando soluções confiáveis.', note:'Feche com uma mensagem de propósito: por que você quer este emprego?'},
+      {title:'Competências', text:'C# · .NET Core · Angular · AWS · DevOps · Docker · Git · SQL · JavaScript · TypeScript', note:'Tenha exemplos prontos de 30s para cada competência mais requisitada.'}
+    ];
+
+    // Estado
+    let index = 0;
+    let autoTimer = null;
+    const slideArea = document.getElementById('slideArea');
+    const noteContent = document.getElementById('noteContent');
+
+    function render(){
+      const s = slides[index];
+      slideArea.innerHTML = `\
+        <div class=\"slide\">\
+          <h2>${s.title}</h2>\
+          <p>${s.text}</p>\
+          <div class=\"timeline-mini\">${makeTags(s.title)}</div>\
+        </div>`;
+      noteContent.innerHTML = `<strong>${s.title}</strong><p>${s.note}</p>`;
+      window.location.hash = 'slide-'+index;
+    }
+
+    function makeTags(title){
+      // exemplos rápidos de tags por slide
+      const map = {
+        'Introdução':['Apresentação','Objetivo'],
+        '2009 — Fundamentos':['HTML','CSS','PHP','MySQL'],
+        '2011 — Crescimento':['C#','WPF','ClearCase'],
+        '2014 — Estrutura e Escala':['MVC','Windows Forms','SQL Server'],
+        '2016–2018 — Colaboração':['Git','JWT','RTC'],
+        '2019 — Segurança e Qualidade':['Nexpose','Splunk','SonarQube'],
+        '2020 — Modernização':['.NET Core','Angular','Docker'],
+        '2022–2023 — Cloud e DevOps':['AWS','CI/CD','APIs'],
+        '2024–2025 — Sênior e Mentor':['Mentoria','Arquitetura','Liderança'],
+        'Competências':['C#','.NET Core','Angular','AWS']
+      };
+      return (map[title]||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+    }
+
+    // navegação
+    document.getElementById('nextBtn').addEventListener('click', ()=>{ index = Math.min(slides.length-1, index+1); render(); });
+    document.getElementById('prevBtn').addEventListener('click', ()=>{ index = Math.max(0,index-1); render(); });
+
+    // teclado
+    document.addEventListener('keydown',(e)=>{
+      if(e.key === 'ArrowRight' || e.key === 'PageDown') document.getElementById('nextBtn').click();
+      if(e.key === 'ArrowLeft' || e.key === 'PageUp') document.getElementById('prevBtn').click();
+      if(e.key === 'f') toggleFull();
+    });
+
+    // fullscreen
+    const slideWrapper = document.documentElement;
+    function toggleFull(){
+      if(!document.fullscreenElement){
+        document.documentElement.requestFullscreen().catch(()=>{});
+      } else { document.exitFullscreen().catch(()=>{}); }
+    }
+    document.getElementById('toggleFull').addEventListener('click', toggleFull);
+
+    // teleprompter (auto-scroll notes)
+    let teleActive = false;
+    document.getElementById('toggleTele').addEventListener('click', ()=>{ teleActive = !teleActive; document.getElementById('toggleTele').textContent = teleActive? 'Tele: ON' : 'Teleprompter'; if(teleActive){ startTele(); } else { stopTele(); } });
+    function startTele(){ noteContent.scrollTop = 0; const speed = Number(document.getElementById('speed').value); autoTimer = setInterval(()=>{ noteContent.scrollTop += 1; }, 1000/speed); }
+    function stopTele(){ clearInterval(autoTimer); autoTimer = null; }
+
+    // auto slide
+    document.getElementById('startAuto').addEventListener('click', ()=>{ if(autoTimer) stopTele(); autoTimer = setInterval(()=>{ if(index < slides.length-1){ index++; render(); } else { clearInterval(autoTimer); } }, 5000); });
+    document.getElementById('pauseAuto').addEventListener('click', ()=>{ clearInterval(autoTimer); autoTimer = null; });
+    document.getElementById('endPresent').addEventListener('click', ()=>{ index = 0; render(); document.exitFullscreen?.(); stopTele(); });
+
+    // baixar HTML
+    document.getElementById('downloadHtml').addEventListener('click', ()=>{
+      const html = '<!doctype html>' + document.documentElement.outerHTML;
+      const blob = new Blob([html], {type:'text/html'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a'); a.href = url; a.download = 'apresentacao_historia.html'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+    });
+
+    // iniciar
+    render();
+  </script>
+</body>
+</html>
