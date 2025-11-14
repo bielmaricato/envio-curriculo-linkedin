@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfólio Profissional | Desenvolvedor Full Stack</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --aws-orange: #FF9900;
+            --aws-dark: #232F3E;
+            --aws-blue: #146EB4;
+            --aws-light-bg: #F2F3F3;
+            --aws-text: #161E2D;
+            --aws-card-bg: #FFFFFF;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Amazon Ember', Arial, sans-serif;
+        }
+        
+        body {
+            background-color: var(--aws-light-bg);
+            color: var(--aws-text);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background-color: var(--aws-dark);
+            color: white;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .logo i {
+            color: var(--aws-orange);
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--aws-orange);
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--aws-dark) 0%, #1a2536 100%);
+            color: white;
+            padding: 80px 0;
+            text-align: center;
+        }
+        
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 30px;
+            opacity: 0.9;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background-color: var(--aws-orange);
+            color: var(--aws-dark);
+            padding: 12px 30px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+        
+        .cta-button:hover {
+            background-color: #e68900;
+        }
+        
+        /* Main Content */
+        .main-content {
+            padding: 80px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+            font-size: 2rem;
+            color: var(--aws-dark);
+            position: relative;
+        }
+        
+        .section-title::after {
+            content: '';
+            display: block;
+            width: 80px;
+            height: 4px;
+            background-color: var(--aws-orange);
+            margin: 15px auto;
+        }
+        
+        /* Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 80px;
+        }
+        
+        .skill-card {
+            background-color: var(--aws-card-bg);
+            border-radius: 8px;
+            padding: 30px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-left: 4px solid var(--aws-orange);
+        }
+        
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .skill-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--aws-dark);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .skill-card h3 i {
+            color: var(--aws-orange);
+        }
+        
+        .skill-card p {
+            margin-bottom: 20px;
+            color: #555;
+        }
+        
+        .experience-bar {
+            height: 8px;
+            background-color: #e0e0e0;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            overflow: hidden;
+        }
+        
+        .experience-level {
+            height: 100%;
+            background-color: var(--aws-orange);
+            border-radius: 4px;
+        }
+        
+        .experience-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+            color: #666;
+        }
+        
+        /* Professional Experience */
+        .experience-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .experience-item {
+            background-color: var(--aws-card-bg);
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        
+        .experience-item:hover {
+            transform: translateY(-5px);
+        }
+        
+        .experience-icon {
+            font-size: 2.5rem;
+            color: var(--aws-orange);
+            margin-bottom: 15px;
+        }
+        
+        .experience-item h3 {
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--aws-dark);
+        }
+        
+        .experience-years {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: var(--aws-blue);
+            margin-bottom: 10px;
+        }
+        
+        .experience-desc {
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--aws-dark);
+            color: white;
+            padding: 40px 0;
+            text-align: center;
+        }
+        
+        .footer-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 20px;
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .social-links a {
+            color: white;
+            font-size: 1.5rem;
+            transition: color 0.3s;
+        }
+        
+        .social-links a:hover {
+            color: var(--aws-orange);
+        }
+        
+        .copyright {
+            margin-top: 20px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+            
+            .skills-grid, .experience-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <i class="fab fa-aws"></i>
+                <span>Portfólio Profissional</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#skills">Habilidades</a></li>
+                    <li><a href="#experience">Experiência</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+    
+    <section class="hero">
+        <div class="container">
+            <h1>Desenvolvedor Full Stack Sênior</h1>
+            <p>Especializado em soluções escaláveis com .NET Core, AWS e tecnologias modernas de desenvolvimento web</p>
+            <a href="#skills" class="cta-button">Ver Habilidades</a>
+        </div>
+    </section>
+    
+    <section class="main-content">
+        <div class="container">
+            <h2 class="section-title" id="skills">Principais Habilidades</h2>
+            <div class="skills-grid">
+                <div class="skill-card">
+                    <h3><i class="fab fa-microsoft"></i> C# & .NET Core</h3>
+                    <p>Desenvolvimento de aplicações robustas e APIs RESTful utilizando as melhores práticas do ecossistema .NET.</p>
+                    <div class="experience-bar">
+                        <div class="experience-level" style="width: 90%"></div>
+                    </div>
+                    <div class="experience-text">
+                        <span>Experiência</span>
+                        <span>5+ anos</span>
+                    </div>
+                </div>
+                
+                <div class="skill-card">
+                    <h3><i class="fab fa-aws"></i> Amazon Web Services</h3>
+                    <p>Implantação, configuração e gerenciamento de infraestrutura em nuvem AWS para aplicações escaláveis.</p>
+                    <div class="experience-bar">
+                        <div class="experience-level" style="width: 85%"></div>
+                    </div>
+                    <div class="experience-text">
+                        <span>Experiência</span>
+                        <span>4+ anos</span>
+                    </div>
+                </div>
+                
+                <div class="skill-card">
+                    <h3><i class="fas fa-database"></i> MySQL</h3>
+                    <p>Modelagem, otimização e administração de bancos de dados relacionais MySQL para aplicações web.</p>
+                    <div class="experience-bar">
+                        <div class="experience-level" style="width: 80%"></div>
+                    </div>
+                    <div class="experience-text">
+                        <span>Experiência</span>
+                        <span>6+ anos</span>
+                    </div>
+                </div>
+                
+                <div class="skill-card">
+                    <h3><i class="fab fa-php"></i> PHP</h3>
+                    <p>Desenvolvimento de funcionalidades dinâmicas e interação com bancos de dados utilizando PHP.</p>
+                    <div class="experience-bar">
+                        <div class="experience-level" style="width: 70%"></div>
+                    </div>
+                    <div class="experience-text">
+                        <span>Experiência</span>
+                        <span>2+ anos</span>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="section-title" id="experience">Experiência Profissional</h2>
+            <div class="experience-grid">
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fab fa-html5"></i>
+                    </div>
+                    <h3>HTML</h3>
+                    <div class="experience-years">16 anos</div>
+                    <p class="experience-desc">Criação da estrutura e conteúdo para páginas web</p>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fab fa-css3-alt"></i>
+                    </div>
+                    <h3>CSS</h3>
+                    <div class="experience-years">16 anos</div>
+                    <p class="experience-desc">Estilização e layout das páginas</p>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>MySQL</h3>
+                    <div class="experience-years">6 anos</div>
+                    <p class="experience-desc">Manipulação de dados em bancos de dados relacionais</p>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fab fa-php"></i>
+                    </div>
+                    <h3>PHP</h3>
+                    <div class="experience-years">2 anos</div>
+                    <p class="experience-desc">Desenvolvimento de funcionalidades dinâmicas</p>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fas fa-table"></i>
+                    </div>
+                    <h3>PhpMyAdmin</h3>
+                    <div class="experience-years">2 anos</div>
+                    <p class="experience-desc">Gerenciamento de bancos de dados MySQL</p>
+                </div>
+                
+                <div class="experience-item">
+                    <div class="experience-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Adobe Photoshop</h3>
+                    <div class="experience-years">4 anos</div>
+                    <p class="experience-desc">Edição e otimização de imagens para uso em sites</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <h3>Entre em Contato</h3>
+                <div class="social-links">
+                    <a href="#"><i class="fab fa-linkedin"></i></a>
+                    <a href="#"><i class="fab fa-github"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fas fa-envelope"></i></a>
+                </div>
+                <p class="copyright">&copy; 2023 Portfólio Profissional. Todos os direitos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
