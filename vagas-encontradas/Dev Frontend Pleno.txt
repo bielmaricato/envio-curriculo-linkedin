@@ -1,0 +1,38 @@
+Buscamos uma pessoa Desenvolvedora Frontend Pleno para atuar no time de Delivery da Petlove, que tem um olhar transversal sobre todas as áreas e produtos digitais da companhia. 
+Você será responsável por construir interfaces performáticas e escaláveis, garantindo a melhor experiência para nossos tutores e tutoras. 
+Procuramos alguém com domínio em VueJS ou Nuxt, práticas modernas de desenvolvimento frontend e integração com APIs REST.
+Se você é apaixonado(a) por tecnologia, performance web e quer fazer parte de um ecossistema que transforma a vida dos pets e seus humanos, venha para a Petlove!  
+
+Principais atividades:
+Desenvolver e evoluir interfaces web com VueJS ou Nuxt, priorizando performance e usabilidade.
+Implementar boas práticas de JavaScript (Vanilla), CSS3/Sass/Less e GIT.
+Utilizar Gulp ou Webpack para otimização e build do frontend.
+Integrar o frontend com APIs REST e colaborar com o time backend.
+Garantir qualidade de código por meio de testes automatizados.
+Trabalhar em conjunto com designers, PMs e outros devs em squads multidisciplinares.
+Contribuir para a evolução de design systems e boas práticas de engenharia frontend.
+
+Requisitos:
+Experiência sólida em VueJS ou Nuxt.
+Proficiência em JavaScript (ES6+).
+Conhecimento em CSS3/Sass/Less, Gulp ou Webpack e versionamento com GIT.
+Integração com APIs REST.
+Vivência com testes automatizados (unitários e E2E).
+
+Requisitos desejáveis(diferencial):
+Experiência com TypeScript.
+Experiência com GraphQl.
+Experiência com HTML5 e acessibilidade (WCAG).
+Familiaridade com arquiteturas modernas (micro frontends, SSR).
+Experiência em ambientes ágeis (Scrum/Kanban).
+Participação em projetos open source.
+Somos o maior ecossistema pet do Brasil, unidos por um propósito: transformar o mundo em um lugar onde os pets sejam mais felizes e saudáveis. Pioneiros no digital, oferecemos tudo o que o seu pet precisa, em um só lugar: e-commerce, app, lojas físicas, planos de saúde pet, creche, hospedagem e muito mais! Estamos sempre inovando com tecnologias que empoderam médicos veterinários e contamos com a maior referência em diagnósticos rápidos e de alta qualidade.
+
+E você, vem fazer parte dessa missão com a gente?
+
+Nosso jeito de trabalhar
+Na Petlove nós somos apaixonados por pets e por pessoas. Por isso, buscamos garantir que somos inclusivos e formamos times diversos, sempre procurando refletir em nossas decisões nosso compromisso com esse tema! Consideramos enriquecedor contratar pessoas com deficiência, de gêneros e orientação sexual diversas, incluindo todas as etnias e religiões, além de todas as idades e demais marcadores de identidade. Temos certeza que só assim formaremos times inconformados, ágeis e comprometidos com o nosso propósito.
+Se identificou? Então vem com a gente!
+Onde tem pet, tem love — só falta você!
+
+Quer saber mais sobre a Petlove e nossos benefícios? Não perca a chance de conferir nossa página de carreiras: https://petlove.jobs.recrut.ai/
